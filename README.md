@@ -1,4 +1,4 @@
-# Behaviour Cloning: Using Deep Learning to Clone Driving Behaviour
+## Behaviour Cloning Project: Using Deep Learning to Clone Driving Behaviour
 
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
@@ -24,7 +24,7 @@ Overview
 
 Objective of this project is to develop a deep neural network pipeline for a self driving car in a simulated track to be able to learn and mimic driving behaviour of a human (myself). I collected training data by driving around track 1 in the simulator using a PlayStation 3 controller. The focus was to generate good driving behaviour and recovery movements. I then used a number of artifical augmentation techniques to generate training samples on-the-fly, that simulated various driving conditions such as: different lighting conditions, effect of car wandering of to the side and recovering, car driving at different positions of the road shifted from the centre of the lane, etc. This helped generate unlimited amount of data, programmatically instead of having to manually produce the data. Although no data from Track 2 was available during training, the trained five-layer convolutional neural network was able to generalise to a more challenging new environment consisting of darker lighting, more turns and bumpy roads. 
 
-![alt text][overview]
+![alt text][overview1] ![alt text][overview2]
 
 Project Goals
 ---
@@ -142,7 +142,9 @@ To capture good driving behavior, I first recorded two laps on track one using c
 
 I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to recover back to the center of the lane when it begins to veer off. These images show what a recovery looks like starting from left and right respectively.
 
-![alt text][image9] ![alt text][image10]
+Recovery from Left   |  Recover from Right
+:-------------------:|:-------------------:
+![alt text][image9]  |  ![alt text][image10]
 
 For this, I was careful in recording images only when the vehicle is entering the recovery and not veering off so that the network does not begin mimicking unwanted behaviour of veering off. I repeated this process for two laps in Track 1 in order to get more data points. I did not use any training data from Track 2. 
 
@@ -212,9 +214,9 @@ I did not use any test set as the model was deemed successful if it drove reason
 Evaluation Video
 ---
 
-Initially, I used `video.py` to generate the video but the quality was really poor so I decided to do a screen capture instead. The working implementation driving on track 1 and 2 can be summarised with the following animations.
+Initially, I used `video.py` to generate the video but the quality was really poor so I decided to do a screen capture instead. The working implementation driving on both tracks can be summarised with the following animation.
 
-![alt text][overview1] ![alt text][overview2]
+![alt text][overview]
 
 Please excuse my taste for the background music in the video but it was getting really boring staring at the same silent simulation environment for weeks. :)
 
