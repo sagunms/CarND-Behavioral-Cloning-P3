@@ -1,4 +1,4 @@
 .DS_Store
-*.zip
+udacity-data.zip
 __pycache__
 custom-data/

@@ -49,17 +49,42 @@ My project includes the following files:
 ### Miscellaneous Files
 
 * `BehaviourCloning.ipynb` - Jupyter notebook for generating various stages of the project to assist during this writeup. Images produced from this notebook can also be found at output_images/*.png
-* `Writeup.ipynb` - Jupyter notebook used to construct this writeup. It has the same content as `README.md`.
-* `calib.p` - Pickle file containing instrinc camera calibration matrix and distortion coefficient saved as the outcome of `CameraCalibrate` class used during the initialisation of the lane detection pipeline.
-* `annotated_project_video.mp4` - The output of the Advanced lane Finding project when processing against project_video.mp4 video.
-* `annotated_project_video_1.mp4` - The output of the project when processing against challenge_video.mp4 video. 
-* `annotated_project_video_2.mp4` - The output of the project when processing against harder_challenge_video.mp4 video. 
+* `custom-data.zip` - Custom training data produced by driving in training mode of the Udacity simulator. Consists of frame-by-frame images and a text file containing information about timestamps, steering angles, etc. and the image file associated with that information.
+
+### Project Dependencies and Environment Setup
+
+#### Get Udacity Simulator
+
+I used the following link to download the Udacity simulator for macOS. There is no guarantee that this link will work forever. Please Google around to get the download links for Linux or Windows. Simply extract it (or double click) and run. That simple!
+
+```sh
+wget https://d17h27t6h515a5.cloudfront.net/topher/2016/November/5831f290_simulator-macos/simulator-macos.zip
+```
+
+#### Clone my project
+
+```sh
+git clone https://github.com/sagunms/CarND-Behavioral-Cloning-P3
+cd CarND-Behavioral-Cloning-P3
+unzip custom-data.zip
+```
+
+#### Activate conda environment
+
+Follow instructions from [CarND-Term1-Starter-Kit page](https://github.com/udacity/CarND-Term1-Starter-Kit) to setup the Anaconda environment from scratch. GPU is strongly recommended to train the model from scratch. I used Amazon AWS `udacity-carnd` AMI running on `g2.2xlarge` instance for this.
+
+```sh
+source activate carnd-term1
+```
+
+Dependecies used are listed [here](https://github.com/udacity/CarND-Term1-Starter-Kit/blob/master/environment-gpu.yml).
 
 ### Training Instructions
 
 The `model.py` file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
 
 Also, I added argument parser for my own convenience in training my model between different training data, different architectures and epochs. Example usage (see `model.py lines 210-236`):
+
 ```sh
 python model.py -i 'udacity-data' -o 'trained-models' -e 5 -w 'sagun' -m 'model_sagun'
 python model.py -i 'custom-data' -o 'trained-models' -e 3 -w 'commaai' -m 'model_commaai'
