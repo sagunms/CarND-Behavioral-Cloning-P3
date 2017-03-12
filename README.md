@@ -2,12 +2,31 @@
 
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
+[//]: # (Image References)
+
+[overview]: ./output_images/overview.gif "Self-Driving Demo Track 1 & 2"
+[overview1]: ./output_images/overview_track1.gif "Self-Driving Demo Track 1"
+[overview2]: ./output_images/overview_track2.gif "Self-Driving Demo Track 2"
+[image1]: ./output_images/Augmentation_CenterLeftFlipped.png "Augmentation steps: Center, Left, and Flipped"
+[image2]: ./output_images/RandomBrightness.png "Augment Random brightness"
+[image3]: ./output_images/CroppedROI.png "Image Cropped to ROI"
+[image4]: ./output_images/Resized.png "Resized to 64x64"
+[image5]: ./output_images/DifferentCamera.png "Images from Left, Center and Right Camera"
+[image6]: ./output_images/SteeringAngleDistribution.png "Histogram showing Steering Angle Distribution"
+[image7]: ./output_images/SteeringTemporalPlot.png "Plot of Steering versus Time"
+[image8]: ./output_images/Driving_Centre.png "Training by center lane driving"
+[image9]: ./output_images/Driving_RecoveryFromLeft.png "Training by recovering from left back to center"
+[image10]: ./output_images/Driving_RecoveryFromRight.png "Training by recovering from right back to center"
+[image11]: ./output_images/RandomAugmentedImages.png "Random examples of final augmented and pre-processed images"
+
 Overview
 ---
 
 Objective of this project is to develop a deep neural network pipeline for a self driving car in a simulated track to be able to learn and mimic driving behaviour of a human (myself). I collected training data by driving around track 1 in the simulator using a PlayStation 3 controller. The focus was to generate good driving behaviour and recovery movements. I then used a number of artifical augmentation techniques to generate training samples on-the-fly, that simulated various driving conditions such as: different lighting conditions, effect of car wandering of to the side and recovering, car driving at different positions of the road shifted from the centre of the lane, etc. This helped generate unlimited amount of data, programmatically instead of having to manually produce the data. Although no data from Track 2 was available during training, the trained five-layer convolutional neural network was able to generalise to a more challenging new environment consisting of darker lighting, more turns and bumpy roads. 
 
-Goals
+![alt text][overview]
+
+Project Goals
 ---
 
 * Use the simulator to collect data of good driving behavior
@@ -16,78 +35,79 @@ Goals
 * Test that the model successfully drives around track one without leaving the road
 * Summarize the results with a written report
 
-[//]: # (Image References)
-
-[image1]: ./examples/Augmentation_CenterLeftFlipped.png "Augmentation steps: Center, Left, and Flipped"
-[image2]: ./examples/RandomBrightness.png "Augment Random brightness"
-[image3]: ./examples/CroppedROI.png "Image Cropped to ROI"
-[image4]: ./examples/Resized.png "Resized to 64x64"
-[image5]: ./examples/DifferentCamera.png "Images from Left, Center and Right Camera"
-[image6]: ./examples/SteeringAngleDistribution.png "Histogram showing Steering Angle Distribution"
-[image7]: ./examples/SteeringTemporalPlot.png "Plot of Steering versus Time"
-[image8]: ./examples/Driving_Centre.png "Training by center lane driving"
-[image9]: ./examples/Driving_RecoveryFromLeft.png "Training by recovering from left back to center"
-[image10]: ./examples/Driving_RecoveryFromRight.png "Training by recovering from right back to center"
-[image11]: ./examples/RandomAugmentedImages.png "Random examples of final augmented and pre-processed images"
-
-Rubric Points
+Project Structure
 ---
 
-### Files Submitted & Code Quality
-
-#### 1. Submission includes all required files and can be used to run the simulator in autonomous mode
+### Source Code
 
 My project includes the following files:
 * `model.py` containing the script to create and train the model
 * `drive.py` for driving the car in autonomous mode
 * `model.json` + `model.h5` containing a trained convolution neural network 
-* `README.md` summarizing my results
+* `README.md` documentation of the project and summary of my results
 
-#### 2. Submission includes functional code
-Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
-```sh
-python drive.py trained_models/model_sagun.json
-```
+### Miscellaneous Files
 
-#### 3. Submssion code is usable and readable
+* `BehaviourCloning.ipynb` - Jupyter notebook for generating various stages of the project to assist during this writeup. Images produced from this notebook can also be found at output_images/*.png
+* `Writeup.ipynb` - Jupyter notebook used to construct this writeup. It has the same content as `README.md`.
+* `calib.p` - Pickle file containing instrinc camera calibration matrix and distortion coefficient saved as the outcome of `CameraCalibrate` class used during the initialisation of the lane detection pipeline.
+* `annotated_project_video.mp4` - The output of the Advanced lane Finding project when processing against project_video.mp4 video.
+* `annotated_project_video_1.mp4` - The output of the project when processing against challenge_video.mp4 video. 
+* `annotated_project_video_2.mp4` - The output of the project when processing against harder_challenge_video.mp4 video. 
 
-The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
+### Training Instructions
 
-Also, I added argument parser for my own convenience in training my model between different training data, different architectures and epochs. Example usage (see model.py lines 210-236):
+The `model.py` file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
+
+Also, I added argument parser for my own convenience in training my model between different training data, different architectures and epochs. Example usage (see `model.py lines 210-236`):
 ```sh
 python model.py -i 'udacity-data' -o 'trained-models' -e 5 -w 'sagun' -m 'model_sagun'
 python model.py -i 'custom-data' -o 'trained-models' -e 3 -w 'commaai' -m 'model_commaai'
 ```
 
-### Model Architecture and Training Strategy
+### Driving Instructions
 
-#### 1. An appropriate model architecture has been employed
+Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
+```sh
+python drive.py trained_models/model_sagun.json
+```
 
-My model (model.py lines 136-174) uses 32 5x5 filters and 16 3x3 in the following two layers. I used 2x2 max pooling. I used two fully connected layers with 1024 neurons and a final layer with one output for steering. The model includes Exponential Linear Unit (ELU) also known as leaky-ReLU layers to introduce nonlinearity and prevents the problem of vanishing gradients which is a drawback of ReLU. Also, it is used to make transition between angles smoother. The data is normalized in the pre-processing pipeline before sending it to the network instead of using lambda layer. The architecture will be discussed further in the later paragraphs. 
+Model Architecture Design
+---
 
-I initially started testing Comma-AI's network which trained with very good validation accuracy but with bad results on the actual track. This model is also available in model.py line 176-205.
+### Final Model Architecture
 
-#### 2. Attempts to reduce overfitting in the model
+My final model architecture (`model.py lines 136-174`) consisted of a convolution neural network with the following layers and layer sizes:
 
-The model contains three dropout layers of probabilities 0.5, 0.4, 0.3 following conv layers 2, 3, 4 respectively in order to reduce overfitting (model.py lines 148, 154, 161). 
+1. **Layer 1**: Convolutional layer with 32 5x5 filters, ELU activation
+2. **Layer 2**: Convolutional layer with 16 3x3 filters, ELU activation, Dropout(0.5) and 2x2 max pooling
+3. **Layer 3**: Convolutional layer with 16 3x3 filters, ELU activation, Dropout(0.4)
+4. **Layer 4**: Fully connected layer with 1024 neurons, Dropout(0.3) and ELU activation
+5. **Layer 5**: Fully connected layer with 1024 neurons, Dropout(0.3) and ELU activation
+
+My model (`model.py lines 136-174`) uses 32 5x5 filters and 16 3x3 filters in the next two layers. I used 2x2 max pooling. I used two fully connected layers with 1024 neurons and a final layer with one output for steering. The model includes [Exponential Linear Unit (ELU)](https://en.wikipedia.org/wiki/Rectifier_(neural_networks)#ELUs) layers to introduce nonlinearity and prevents the problem of vanishing gradients which is a drawback of ReLU. Also, it is used to make transition between angles smoother. The data is normalized in the pre-processing pipeline before sending it to the network instead of using lambda layer. The architecture will be discussed further in the later paragraphs. 
+
+I initially started testing [Comma-AI's network](https://github.com/commaai/research/blob/master/train_steering_model.py) which trained with very good validation accuracy but with bad results on the actual track. This model is also available in `model.py line 176-205`.
+
+### Reducing overfitting in the model
+
+The model contains three dropout layers of probabilities 0.5, 0.4, 0.3 following conv layers 2, 3, 4 respectively in order to reduce overfitting (`model.py lines 148, 154, 161`). 
 
 I experimented with various dropout probabilities where I initially used aggressive dropouts. However, since the car did not perform well on the track, the final parameters seemed to work well. 
 
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track. 
+The model was trained and validated on different data sets to ensure that the model was not overfitting (code `lines 10-16`). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track. 
 
-#### 3. Model parameter tuning
+### Model parameter tuning
 
-The model used an adam optimizer so the learning rate was not tuned manually (model.py line 203) and used mean squared error (MSE) as the loss function.
+The model used an [Adam Optimizer](https://arxiv.org/abs/1412.6980) available in Tensorflow so the learning rate was not tuned manually (`model.py line 203`) and used mean squared error (MSE) as the loss function.
 
-#### 4. Appropriate training data
+### Appropriate training data
 
-Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road.
+Training data was chosen to keep the vehicle driving on the road using a PlayStation 3 controller in Training Mode available in the simulator. I used a combination of center lane driving, recovering from the left and right sides of the road.
 
 For details about how I created the training data, see the next section. 
 
-### Model Architecture and Training Strategy
-
-#### 1. Solution Design Approach
+### Solution Design Approach
 
 My first step was to use a convolution neural network model similar to the Comma-AI model. I thought this model might be appropriate because of its small size and its popularity in the CarND forums.
 
@@ -114,17 +134,7 @@ Epoch 5/5
 Saving model weights and config to trained-models/model_sagun file...
 ```
 
-#### 2. Final Model Architecture
-
-My final model architecture (model.py lines 136-174) consisted of a convolution neural network with the following layers and layer sizes:
-
-1. **Layer 1**: Convolutional layer with 32 5x5 filters, ELU activation
-2. **Layer 2**: Convolutional layer with 16 3x3 filters, ELU activation, Dropout(0.5) and 2x2 max pooling
-3. **Layer 3**: Convolutional layer with 16 3x3 filters, ELU activation, Dropout(0.4)
-4. **Layer 4**: Fully connected layer with 1024 neurons, Dropout(0.3) and ELU activation
-5. **Layer 5**: Fully connected layer with 1024 neurons, Dropout(0.3) and ELU activation
-
-#### 3. Creation of the Training Set & Training Process
+### Creation of the Training Set & Training Process
 
 To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
 
@@ -156,6 +166,9 @@ As my training dataset was not large enough, I had to augment synthetic data for
 
 I used the techniques suggested in the [Vivek Yadav's blog](https://chatbotslife.com/using-augmentation-to-mimic-human-driving-496b569760a9) and [nVidia's paper](http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf), for augmenting data. 
 
+Training Strategies
+---
+
 ### Augmentation strategy
 
 - Without having to generate tons of data by myself, I would use the left and right camera images to simulate the effect of the car wandering off to the side and recovering. Experimentally, if the left camera is steered by adding a small angle of 0.25 radians (6.25 degrees), it would have similar image as the center camera. Similarly, if 0.25 angle is subtracted from the right camera image, it would be similar to the center camera image. In this way, the camera location was chosen randomly from the dataset and if it was left or right, 0.25 was added or subtracted respectively.
@@ -182,13 +195,13 @@ A number of random images going through the entire augmentation and pre-processi
 
 ![alt text][image11]
 
-## Data Generation strategy
+### Data Generation strategy
 
 I finally randomly shuffled the data set and put Y% of the data into a validation set. 
  
 I used this training data for training the model. The validation set helped determine if the model was over or under fitting. 
 
-## Training strategy
+### Training strategy
 
 The ideal number of epochs for me was 5 as described earlier. I used an adam optimizer so that manually training the learning rate wasn't necessary.
 
@@ -198,9 +211,12 @@ I used `fit_generator` which is part of Keras to generate random new augmented/p
 
 I did not use any test set as the model was deemed successful if it drove reasonably well on the complete Track 1 without going out of the line or getting stuck even once.
 
-### Evaluation Video
+Evaluation Video
+---
 
-Initially, I used `video.py` to generate the video but the quality was really poor so I decided to do a screen capture instead. 
+Initially, I used `video.py` to generate the video but the quality was really poor so I decided to do a screen capture instead. The working implementation driving on track 1 and 2 can be summarised with the following animations.
+
+![alt text][overview_track1] ![alt text][overview_track2]
 
 Please excuse my taste for the background music in the video but it was getting really boring staring at the same silent simulation environment for weeks. :)
 
