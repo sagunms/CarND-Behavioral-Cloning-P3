@@ -114,11 +114,14 @@ Model Architecture Design
 
 My final model architecture (`model.py lines 136-174`) consisted of a convolution neural network with the following layers and layer sizes:
 
-1. **Layer 1**: Convolutional layer with 32 5x5 filters, ELU activation
-2. **Layer 2**: Convolutional layer with 16 3x3 filters, ELU activation, Dropout(0.5) and 2x2 max pooling
-3. **Layer 3**: Convolutional layer with 16 3x3 filters, ELU activation, Dropout(0.4)
-4. **Layer 4**: Fully connected layer with 1024 neurons, Dropout(0.3) and ELU activation
-5. **Layer 5**: Fully connected layer with 1024 neurons, Dropout(0.3) and ELU activation
+| Layer       | Layer Type            | Layer Size     | Activation and/or Dropout    | Maxpooling     | 
+|:-----------:|:---------------------:|:--------------:|:----------------------------:|:--------------:| 
+| **Layer 1** | Convolutional layer   | 16 3x3 filters | ELU activation, Dropout(0.5) | 2x2 maxpooling |
+| **Layer 1** | Convolutional layer   | 32 5x5 filters | ELU activation               |                |
+| **Layer 2** | Convolutional layer   | 16 3x3 filters | ELU activation, Dropout(0.5) | 2x2 maxpooling |
+| **Layer 3** | Convolutional layer   | 16 3x3 filters | ELU activation, Dropout(0.4) |                |
+| **Layer 4** | Fully connected layer | 1024 neurons   | Dropout(0.3), ELU activation |                |
+| **Layer 5** | Fully connected layer | 1024 neurons   | Dropout(0.3), ELU activation |                |
 
 My model (`model.py lines 136-174`) uses 32 5x5 filters and 16 3x3 filters in the next two layers. I used 2x2 max pooling. I used two fully connected layers with 1024 neurons and a final layer with one output for steering. The model includes [Exponential Linear Unit (ELU)](https://en.wikipedia.org/wiki/Rectifier_(neural_networks)#ELUs) layers to introduce nonlinearity and prevents the problem of vanishing gradients which is a drawback of ReLU. Also, it is used to make transition between angles smoother. The data is normalized in the pre-processing pipeline before sending it to the network instead of using lambda layer. The architecture will be discussed further in the later paragraphs. 
 
@@ -201,7 +204,7 @@ As my training dataset was not large enough, I had to augment synthetic data for
 
 I used the techniques suggested in the [Vivek Yadav's blog](https://chatbotslife.com/using-augmentation-to-mimic-human-driving-496b569760a9) and [nVidia's paper](http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf), for augmenting data. 
 
-Training Strategies
+Strategies
 ---
 
 ### Augmentation strategy
@@ -253,7 +256,7 @@ Initially, I used `video.py` to generate the video but the quality was really po
 
 ![alt text][overview]
 
-Please excuse my taste for the background music in the video but it was getting really boring staring at the same silent simulation environment for weeks. :)
+Please excuse my taste for the background music in the video but it was getting really boring staring at the same silent simulation environment for weeks. ʘ‿ʘ ♫ 
 
 **Successful autonomous driving on both [Track 1](https://www.youtube.com/watch?v=qODMKNyRgpY) and [Track 2](https://www.youtube.com/watch?v=qODMKNyRgpY&t=1m29s)**
 
