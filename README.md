@@ -49,7 +49,8 @@ My project includes the following files:
 ### Miscellaneous Files
 
 * `BehaviourCloning.ipynb` - Jupyter notebook for generating various stages of the project to assist during this writeup. Images produced from this notebook can also be found at output_images/*.png
-* `custom-data.zip` - Custom training data produced by driving in training mode of the Udacity simulator. Consists of frame-by-frame images and a text file containing information about timestamps, steering angles, etc. and the image file associated with that information.
+* `custom-data.zip` - Custom training data produced by driving in training mode of the Udacity simulator. Consists of `IMG/` directory containing frame-by-frame `.jpg` images from left, centre and right cameras of the vehicle. `driving_log.csv` contains information that links the centre, left, right camera images for each frame with steering angle, throttle, brake, and speed information. This csv file is read with the help of pandas library during the training process. See `BehaviourCloning.ipynb` for details. Please refer to the instructions in the next section about how to extract the split zip archives `custom-data.z01` and `custom-data.z02`. 
+* `carnd-simulator-macos.zip*` - Compressed CarND simulator app used to train and test the convolutional neural network for this project. Please refer to the instructions in the next section about how to extract the split zip archives `carnd-simulator-macos.zip.aa` and `carnd-simulator-macos.zip.ab`. 
 
 ### Project Dependencies and Environment Setup
 
