@@ -53,20 +53,29 @@ My project includes the following files:
 
 ### Project Dependencies and Environment Setup
 
-#### Get Udacity Simulator
-
-I used the following link to download the Udacity simulator for macOS. There is no guarantee that this link will work forever. Please Google around to get the download links for Linux or Windows. Simply extract it (or double click) and run. That simple!
-
-```sh
-wget https://d17h27t6h515a5.cloudfront.net/topher/2016/November/5831f290_simulator-macos/simulator-macos.zip
-```
-
 #### Clone my project
 
 ```sh
 git clone https://github.com/sagunms/CarND-Behavioral-Cloning-P3
 cd CarND-Behavioral-Cloning-P3
-unzip custom-data.zip
+```
+
+#### Extract CarND simulator (macOS)
+
+To play ball with GitHub's 100 MB per commit limit, I have committed the split archives `carnd-simulator-macos.zip.aa` and `carnd-simulator-macos.zip.ab` as separate commits. The following script combines the split files into a single archive `carnd-simulator-macos.zip`, extracts it to `carnd-simulator-macos.app` and runs the simulator. Please read comments inside `extract-carnd-simulator-macos.sh` file for more details.
+
+```sh
+chmod +x extract-carnd-simulator-macos.sh
+./extract-carnd-simulator-macos.sh
+```
+
+#### Extract custom training data
+
+Again, due to GitHub's 100 MB per commit limit, I have committed `custom-data.zip` along with split zip archive files `custom-data.z01` and `custom-data.z02` into individual commits. The following script combines the split files into a single archive and extracts it to `custom-data/`.
+
+```sh
+chmod +x extract-custom-data.sh
+./extract-custom-data.sh
 ```
 
 #### Activate conda environment
