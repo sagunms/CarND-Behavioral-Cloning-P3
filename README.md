@@ -116,20 +116,20 @@ My final model architecture (`model.py lines 136-174`) consisted of a convolutio
 
 | Layer       | Layer Type            | Layer Size     | Activation and/or Dropout    | Maxpooling     | 
 |:-----------:|:---------------------:|:--------------:|:----------------------------:|:--------------:| 
-| **Layer 1** | Convolutional layer   | 16 3x3 filters | ELU activation, Dropout(0.5) | 2x2 maxpooling |
 | **Layer 1** | Convolutional layer   | 32 5x5 filters | ELU activation               |                |
 | **Layer 2** | Convolutional layer   | 16 3x3 filters | ELU activation, Dropout(0.5) | 2x2 maxpooling |
 | **Layer 3** | Convolutional layer   | 16 3x3 filters | ELU activation, Dropout(0.4) |                |
 | **Layer 4** | Fully connected layer | 1024 neurons   | Dropout(0.3), ELU activation |                |
-| **Layer 5** | Fully connected layer | 1024 neurons   | Dropout(0.3), ELU activation |                |
+| **Layer 5** | Fully connected layer | 512 neurons    | ELU activation               |                |
+| **Layer 6** | Fully connected layer | 1 neuron       |                              |                |
 
-My model (`model.py lines 136-174`) uses 32 5x5 filters and 16 3x3 filters in the next two layers. I used 2x2 max pooling. I used two fully connected layers with 1024 neurons and a final layer with one output for steering. The model includes [Exponential Linear Unit (ELU)](https://en.wikipedia.org/wiki/Rectifier_(neural_networks)#ELUs) layers to introduce nonlinearity and prevents the problem of vanishing gradients which is a drawback of ReLU. Also, it is used to make transition between angles smoother. The data is normalized in the pre-processing pipeline before sending it to the network instead of using lambda layer. The architecture will be discussed further in the later paragraphs. 
+My model (`model.py lines 136-174`) uses 32 5x5 filters and 16 3x3 filters in the next two layers. I used 2x2 max pooling. I used two fully connected layers: first with 1024 neurons and second with 512 neurons. Then a final layer with one output for steering. The model includes [Exponential Linear Unit (ELU)](https://en.wikipedia.org/wiki/Rectifier_(neural_networks)#ELUs) layers after each layer to introduce nonlinearity and prevent the problem of vanishing gradients which is one of the major drawbacks of the simpler ReLU. Also, it is used to make transition between angles smoother. The data is normalized in the pre-processing pipeline before sending it to the network instead of using lambda layer. The architecture will be discussed further in the later paragraphs. 
 
 I initially started testing [Comma-AI's network](https://github.com/commaai/research/blob/master/train_steering_model.py) which trained with very good validation accuracy but with bad results on the actual track. This model is also available in `model.py line 176-205`.
 
 ### Reducing overfitting in the model
 
-The model contains three dropout layers of probabilities 0.5, 0.4, 0.3 following conv layers 2, 3, 4 respectively in order to reduce overfitting (`model.py lines 148, 154, 161`). 
+The model contains three dropout layers of probabilities 0.5, 0.4, 0.3 following convolutional layers 2, 3, 4 respectively in order to reduce overfitting (`model.py lines 148, 154, 161`). 
 
 I experimented with various dropout probabilities where I initially used aggressive dropouts. However, since the car did not perform well on the track, the final parameters seemed to work well. 
 
